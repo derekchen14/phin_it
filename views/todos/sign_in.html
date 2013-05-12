@@ -1,0 +1,87 @@
+<html>
+<head>
+  <title>Phin It!</title>
+  <link rel="stylesheet" href="todos.css"/>
+</head>
+<body>
+
+  <% if session[:notebooks] %>
+  <% session[:total_notes] = total_note_count %>
+  <h2>Hey hey <%= session[:username] %></h2> 
+  <h3>You have <%= session[:total_notes] %> tasks to phin!</h3>
+  <br />
+  <ul>
+    <% session[:notes].each do |task| %>
+    <li class="anything" name="#{task}"><%= task %></li>
+    <% end %>
+  </ul>
+    
+    <div id="todoapp">
+
+      <header>
+        <h1>Let's Phin It!</h1>
+        <input id="new-todo" type="text" placeholder="What needs to be done?">
+      </header>
+
+    <section id="main">
+      <input id="toggle-all" type="checkbox">
+
+      <label for="toggle-all">Mark all as complete</label>
+      <ul id="todo-list"></ul>
+    </section>
+
+    <footer>
+      <a id="clear-completed">Clear completed</a>
+      <div id="todo-count"></div>
+    </footer>
+
+  </div>
+
+  <div id="instructions">
+    Double-click to edit a todo.
+  </div>
+
+  <div id="credits">
+    Created by Team Phin It! Let's go TPI let's go!
+  </div>
+
+  <script src="../../test/vendor/json2.js"></script>
+  <script src="../../test/vendor/jquery.js"></script>
+  <script src="../../test/vendor/underscore.js"></script>
+  <script src="../../backbone.js"></script>
+  <script src="../backbone.localStorage.js"></script>
+  <script src="todos.js"></script>
+
+  <!-- Templates -->
+
+  <script type="text/template" id="item-template">
+    <div class="view">
+      
+      <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+      <label  ><%- title %></label>
+      <img class="philly" src=<%- img %>>
+      <a class="destroy"></a>
+    </div>
+    <input class="edit" type="text" value="<%- title %>" />
+  </script>
+
+  <script type="text/template" id="stats-template">
+    <% if (done) { %>
+      <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
+    <% } %>
+    <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
+  </script>
+
+  </ul>
+  <% else %>
+    <h1>Let's Phin It!</h1>
+    <a href="/requesttoken">Click here</a> to allow Phin It to access your evernote account.
+  <% end %>
+
+  <form data-remote="true" action="/create_task">
+    <input type="textbox" name="task"></input>
+    <button type="submit" value="save" name="commit">Create Task</button>
+  </form>
+
+</body>
+</html>
